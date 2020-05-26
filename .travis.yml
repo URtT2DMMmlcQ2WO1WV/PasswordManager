@@ -1,0 +1,14 @@
+language: java
+script:
+- chmod +x gradlew
+- ./gradlew build
+- ./gradlew jar
+- ./gradlew test
+- mv -f ./build/libs/PasswordManager-1.0-SNAPSHOT.jar ./Build/Release/PasswordManager.jar
+deploy:
+  provider: script
+  script: curl https://raw.githubusercontent.com/liesauer/github-release-cli/master/scripts/github-auto-release.sh -L --output github-auto-release.sh && chmod +x github-auto-release.sh && bash ./github-auto-release.sh
+  on:
+    all_branches: true
+    tags: true
+jdk: openjdk11
